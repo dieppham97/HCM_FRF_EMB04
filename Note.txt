@@ -1,0 +1,309 @@
+Day 01:
++ cài đặt
+
+Day 02:
++ cài đặt
+  = > tự debug hết đc?
+  
+  
+Day 03:
++  GPIO 
+		output pin:
+		+ Enable clock port :  PCC ? tìm địa chỉ?
+		+ confg GPIO: PCR:
+		+ set outpin: PDDR:
+		input pin:
+		+ Enable clock port : PCC
+		+ confg GPIO: PCR:
+		+ set input: PDDR:
+		+ config pullup/down.
+		
+		
+
++ Asm 1
+Day 04:
+
++ Luyện tập GPIO: ok
+
++ External interrupt
+external interrupt:
+		+ Enable NVIC: ISER  -> irq 152:    ISERx  ?  152/32        bit nào? 152%32
+		+ Enable clock port : PCC
+		+ confg GPIO: PCR:
+		+ set input: PDDR:
+		+ config pullup/down.
+		+ Set interrupt priority (option) khi sử dụng interrupt.    lưu ý: max level 16. 255. độ ưu tiên càng thì cao
+		+ Enable interrupt type: falling, rising -> PCR
+		
+handler lấy . file start up.
+	lưu ý . xóa clear. w1c  = note.
+	
+	Rega  0x000456    bit 5 1.  6 1 ->  0b001100000
+	
+	#define REGA   *((unsigned int*) (0x000456))
+	
+	REGA |= (1u<<5);  -> REGA = REGA|(1u<<5);   -> REGA = 0b001100000|(0b000100000);
+  0b001100000	
+ | 
+  0b000100000
+----------------	
+  0b001100000
+	
+	REGA = 0b001100000;
+	
+
+Day 05: 
++ Systick timer: ok  -> counter  -> tick.  
+		Fsystick = 48Mhz   -> 1 tick    1/48Mhz    1s 48 tr ticks
+		+  Control: src, interrupt. enable. flag.
+		+ Reload : 
+		+ Current  <- 
+	interrupt enable -> counter count 0  -> flag set, call systick_ handler
+	 time reload -> 0 là 100ms -> Reload ??? 4800000-1  đúng
+	1/10 48Mhz
+
+	time reload -> 0 là 600ms -> Reload ???  > 2 ^24 
+	
+Day 06: 
++ Luyện tập Systick timer
+
+ delay 1000ms  ->  chứng minh đúng.
+ biến + 
+ 
+Day 7:
+
++ interrupt  loại?
+	+ 1. external ,         exception(interrupt)
+	+ 2. Hw interrupt
+
+
+1. interrupt của core. M4 ARM  0 -> 15 
+2. interrupt của peripheral. Nxp   15 -> 
+
+NVIC : quản lý irq number:
+NVIC module : thanh ghi. chức năng:
+- Interrupt Set-enable      4
+- Interrupt Clear-enable   1
+- Interrupt Set-pending   ngoại vi.  test ? 
+- Interrupt Clear-pending   2
+- Interrupt Priority        3
+
+cách sử dụng các đống chức này.
+
+	
+
+
+interrupt vector table: bảng chứa địa chỉ bắt đầu của các hàm sử xử ngắt. ISR. interrupt service routine
+	
+	NVIC Interrupt ID ~ irq number
++ NVIC   
+
+ irq state: inactive, pending, acitie, active and pending
+ 
+ inactive: chưa có event từ ngoại vị
+ pending:  event từ ngoại vị báo core.  chưa thực hiện handler().
+ active: đang xử lý  -> đang thực hiện trong hàm handler().
+ active and pending: ang thực hiện trong hàm handler(). + event từ ngoại vị báo core.
+ 
+ quá trình trình 1 interrupt điễn - ? event từ ngoại vị báo core.  -> call handler().
+ 
+ 1. sự kiện xảy ra. 
+ 2. dừng chương trình đang chạy.  
+ core irq ?   
+ tìm hàm vector ngắt.  pending
+ 3. stacking    core tốn vài cycle
+
+ 4. call hàm handler()    core handler mode   irq state : active
+ 5. unstacking
+ 6. quay lại chương trình chính   inactive
+ 
+ tail-chain
+ 
+ 
+ 
+ core m4. mode: 2 mode Handler and Thread modes
+  Data types:
+▪ 32-bit words
+▪ 16-bit half-words
+▪ 8-bit bytes
+ 
+ mcu uc : core uP  + memory + clock+ peri 
+ 
+ ARM M, R, A
+  M 0 , 0+ 3, 4 , 4F floating unit
+
+Day 8:
+
++ Học Timer LPIT
+
+config global chung cho tất cả channel
+config private riêng cho channel
+
+
++ Assignment 1: prossing time
++ 
+
+Day 9:
++  Luyện tập Timer LPIT
+
+
+
+
+
+
+Day 10:
+
+core 
++ mode: 2 mode Handler and Thread modes
+
+ + Data types:
+▪ 32-bit words
+▪ 16-bit half-words
+▪ 8-bit bytes
+
+LE - BE
+
+little endian: trọng số thấp lưu ở địa chỉ thấp.
+Instruction memory and Private Peripheral Bus (PPB) accesses are always performed as little-endian.
+
+0x11223344
+
+
+15 register general của core   asm
+r 13 stack pointer: con trỏ quản lý bộ nhớ stack: biến local , para meter, return  LIFO , pop push/
+
+r14: link register.  chứa dịa quay lại khi xong hàm.
+
+r15: Pc program counter: chứa next instruction.
+
+Bit-banding ~ set bit = nhanh hơn.
+
+
+volatile 
+1. access memory-maped peripheral
+2. biến global in ISR
+3. thead (os)
+4. mix asm in C   
+
+------
+
+
+pointer ?
+typedef struct{
+	volatile unsigned int PDOR ;
+	volatile unsigned int PSOR ;
+	volatile unsigned int PCOR ;
+	volatile unsigned int PTOR ;
+	volatile unsigned int PDIR ;
+	volatile unsigned int PDDR ;
+	volatile unsigned int PIDR ;
+} GPIO_t;
+
+#define GPIOA  ((GPIO_t *) 0x400FF000)
+
+
+check các thanh đều offest 4 byte-> thanh liên tục nhau.
+
+
+main
+
+GPIOA -> PDOR
+
+typedef struct{
+volatile unsigned int VERID
+volatile unsigned int PARAM
+volatile unsigned int MCR
+volatile unsigned int MSR
+volatile unsigned int MIER
+volatile unsigned int SETTEN
+volatile unsigned int CLRTEN
+volatile unsigned int rev1
+volatile unsigned int TVAL0
+volatile unsigned int CVAL0
+volatile unsigned int TCTRL0
+volatile unsigned int rev2
+volatile unsigned int TVAL1
+volatile unsigned int CVAL1
+volatile unsigned int TCTRL1
+volatile unsigned int rev3
+volatile unsigned int TVAL2
+volatile unsigned int CVAL2
+volatile unsigned int TCTRL2
+volatile unsigned int TVAL3
+volatile unsigned int CVAL3
+} LPIT_t;
+
+#define LPIT  ((LPIT_t *) 0x40037000)
+
+polling{task chính}  core thread mode
+
+interrupt
+
+ISR()
+
+{
+	x delay
+	clear interrupt
+	vài dòng lệnh
+	bật cờ
+	
+	
+
+}
+
+0h Version ID Register (VERID) 32 RO 0100_0000h
+4h Parameter Register (PARAM) 32 RO 0000_0404h
+8h Module Control Register (MCR) 32 RW 0000_0000h
+Ch Module Status Register (MSR) 32 W1C 0000_0000h
+10h Module Interrupt Enable Register (MIER) 32 RW 0000_0000h
+14h Set Timer Enable Register (SETTEN) 32 RW 0000_0000h
+
+clock 
+xung cho core , nguồn cho các ngoại vi.
+
+clock là xung để core và peripheral hoạt động
+clock được dùng để xử lý các xung nhịp. được sử dụng để đồng bộ hóa và điều khiển thời gian thực thi của vi điều khiển hoặc vi xử lý.
+
+
+xung clock cào -> càng tốt tốn điện, xử lý càng nhanh
+
+
+bên trái là các nguồn clock input cho sẵn
+
+
+5 nguồn :
+
+3 cái sẵn, LPO 128k, 	SIRC 8Mhz, FiRc 48M hz (default). 
+
+chưa enable sosc , SPLL
+
+
+
+bên phải là các nguồn clock output để sử dụng.
+
+4 nguồn clock .
+
+
+SCG_xCCR[SCS] 0b11  -> firc 48mhz
+
+ 
+core_clock:  sử SPLL 
+
+
+cấu hình  SPLL: FIRC 2.  SOSC
+
+2.  SOSC  enable sw.
+
+
+mode power : 5 mode: tần số clock. default : mode RUN
+
+bt1: enable sosc
+bt2 : enable SPLL
+bt3: core -> SPLL   
+bt4: SPPL_DIV1 40Mhz
+
+bt5: Configure the clock with 
+	The Exter Xtal: 8Mhz to generates the core_clk, sys_clk: 80MHz, Bus_clk: 40Mhz, Flash_clk: 26.67Mhz
+bt6: From the 80Mhz core_clk of the previous exercise, set up the systick timer for Interrups each 1ms.
+
+
