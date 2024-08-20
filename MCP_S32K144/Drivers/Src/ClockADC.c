@@ -79,6 +79,6 @@ uint8_t ADC_conversion_complete (void)
 uint32_t ADC_Channel_Read(void)
 {
 	uint32_t adc_result = 0;
-	adc_result = ADC0->R[0];												/* For SW trigger mode, R[0] is used */
+	adc_result = ADC0->R[0];			/* For SW trigger mode, R[0] is used */
 	return (uint32_t)((5000 * adc_result) / 0xFFF);	/* Convert result to mV for 0-5 V range */
 }
