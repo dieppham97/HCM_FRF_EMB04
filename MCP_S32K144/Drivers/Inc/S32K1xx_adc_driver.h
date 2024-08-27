@@ -3,22 +3,22 @@
 
 #include "S32K1xx.h"
 
-#define ADC_SC1_ADCH_MASK						0x1FU
+#define ADC_SC1_ADCH_MASK            0x1FU
 
-#define ADC_CFG1_ADICLK							0
-#define ADC_CFG1_MODE								2
-#define ADC_CFG1_ADIV								5
+#define ADC_CFG1_ADICLK              0
+#define ADC_CFG1_MODE                2
+#define ADC_CFG1_ADIV                5
 
-#define CFG1_ADIV_DIV1							0
-#define CFG1_ADIV_DIV2							1
-#define CFG1_ADIV_DIV4							2
-#define CFG1_ADIV_DIV8							3
+#define CFG1_ADIV_DIV1               0
+#define CFG1_ADIV_DIV2               1
+#define CFG1_ADIV_DIV4               2
+#define CFG1_ADIV_DIV8               3
 
-#define CFG1_MODE_8BIT							0
-#define CFG1_MODE_12BIT							1
-#define CFG1_MODE_10BIT							2
+#define CFG1_MODE_8BIT               0
+#define CFG1_MODE_12BIT              1
+#define CFG1_MODE_10BIT              2
 
-#define CFG1_ADICLK									0
+#define CFG1_ADICLK                  0
 
 
 
