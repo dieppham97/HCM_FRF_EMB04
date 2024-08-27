@@ -6,6 +6,7 @@
 #define DISABLE 0
 #define ENABLE 	1
 #define _vo			volatile
+#define __weak 	__attribute__((weak))
 
 /*
  * ARM Cortex Mx Processor NVIC ISERx register Addresses
@@ -72,47 +73,44 @@ typedef struct
 #define SCG_BASEADDR						0x40064000u
 #define SCG											((SCG_RegDef_t*)SCG_BASEADDR)
 #define SCG_CSR_SCS_MASK        0xF000000u
-#define SCG_SOSCCSR_LK_MASK			0x800000u
-#define SCG_SOSCCSR_SOSCVLD_MASK	0x1000000u
-#define SCG_SPLLCSR_LK_MASK			0x800000u
-#define SCG_SPLLCSR_SPLLVLD_MASK	0x1000000u
 
 #define RCCR_SCS								24
 #define RCCR_DIVCORE						16
 #define RCCR_DIVBUS							4
 #define RCCR_DIVSLOW						0
 
+#define SCG_SOSCCSR_LK_MASK			0x800000u
+#define SCG_SOSCCSR_SOSCVLD_MASK	0x1000000u
 #define SOSCDIV_DIV1						0
 #define SOSCDIV_DIV2						8
 #define SOSCCFG_EREFS						2
 #define SOSCCFG_RANGE						4
 #define SCG_SOSC_EN()						(SCG->SOSCCSR |= (1 << 0))
+#define SCG_SOSC_DI()						(SCG->SOSCCSR &= ~(1U << 0))
 
+#define SCG_SIRCCSR_LK_MASK			0x800000u
 #define SIRCDIV_DIV1						0
 #define SIRCDIV_DIV2						8
+#define SIRCCFG_RANGE						0
+#define SCG_SIRC_EN()						(SCG->SIRCCSR |= (1 << 0))
+#define SCG_SIRC_DI()						(SCG->SIRCCSR &= ~(1U << 0))
 
+#define SCG_FIRCCSR_LK_MASK			0x800000u
 #define FIRCDIV_DIV1						0
 #define FIRCDIV_DIV2						8
+#define SCG_FIRC_EN()						(SCG->FIRCCSR |= (1 << 0))
+#define SCG_FIRC_DI()						(SCG->FIRCCSR &= ~(1U << 0))
 
+#define SCG_SPLLCSR_LK_MASK			0x800000u
+#define SCG_SPLLCSR_SPLLVLD_MASK	0x1000000u
 #define SPLLDIV_DIV1						0
 #define SPLLDIV_DIV2						8
 #define SCG_SPLL_EN()						(SCG->SPLLCSR |= (1 << 0))
 #define SCG_SPLL_DI()						(SCG->SPLLCSR &= ~(1U << 0))
+#define SPLLCFG_SOURCE					0
 #define SPLLCFG_PREDIV					8
 #define SPLLCFG_MULT						16
 
-/* Divide clock */
-#define DIV_1										1
-#define DIV_2										2
-#define DIV_4										3
-#define DIV_8										4
-#define DIV_16									5
-#define DIV_32									6
-#define DIV_64									7
-
-/* Select source SOSC */
-#define EXTERNAL								0
-#define INTERNAL								1
 
 /* Select range SOSC */
 #define SOSC_LOW								1
@@ -123,50 +121,6 @@ typedef struct
 #define SOSCCSR_VLD							24
 #define SPLLCSR_LK							SOSCCSR_LK
 #define SPLLCSR_VLD							SOSCCSR_VLD
-
-/* PREDIV in SPLL*/
-#define SPLL_PREDIV1						0
-#define SPLL_PREDIV2						1
-#define SPLL_PREDIV3						2
-#define SPLL_PREDIV4						3
-#define SPLL_PREDIV5						4
-#define SPLL_PREDIV6						5
-#define SPLL_PREDIV7						6
-#define SPLL_PREDIV8						7
-
-/* MULT in SPLL */
-#define SPLL_MULT16							0
-#define SPLL_MULT17							1
-#define SPLL_MULT18							2
-#define SPLL_MULT19							3
-#define SPLL_MULT20							4
-#define SPLL_MULT21							5
-#define SPLL_MULT22							6
-#define SPLL_MULT23							7
-#define SPLL_MULT24							8
-#define SPLL_MULT25							9
-#define SPLL_MULT26							10
-#define SPLL_MULT27							11
-#define SPLL_MULT28							12
-#define SPLL_MULT29							13
-#define SPLL_MULT30							14
-#define SPLL_MULT31							15
-#define SPLL_MULT32							16
-#define SPLL_MULT33							17
-#define SPLL_MULT34							18
-#define SPLL_MULT35							19
-#define SPLL_MULT36							20
-#define SPLL_MULT37							21
-#define SPLL_MULT38							22
-#define SPLL_MULT39							23
-#define SPLL_MULT40							24
-#define SPLL_MULT41							25
-#define SPLL_MULT42							26
-#define SPLL_MULT43							27
-#define SPLL_MULT44							28
-#define SPLL_MULT45							29
-#define SPLL_MULT46							30
-#define SPLL_MULT47							31
 
 /* SCG_RCCR */
 #define	SCS_OSC									1
@@ -272,9 +226,9 @@ typedef struct
 	_vo uint32_t LPI2C0;
 	_vo uint32_t LPI2C1;
 			uint32_t RESERVED12[2];
-	_vo uint32_t LPUART0;
-	_vo uint32_t LPUART1;
-	_vo uint32_t LPUART2;
+	_vo uint32_t PCC_LPUART0;
+	_vo uint32_t PCC_LPUART1;
+	_vo uint32_t PCC_LPUART2;
 			uint32_t RESERVED13;
 	_vo uint32_t FTM4;
 	_vo uint32_t FTM5;
@@ -291,6 +245,16 @@ typedef struct
 
 #define PCC_BASE								0x40065000U
 #define PCC											((PCC_RegDef_t*) PCC_BASE)
+
+/* Mode in PCS select source */
+#define PCS_SOSCDIV1								1U
+#define PCS_SOSCDIV2								1U
+#define PCS_SIRCDIV1								2U
+#define PCS_SIRCDIV2								2U
+#define PCS_FIRCDIV1								3U
+#define PCS_FIRCDIV2								3U
+#define PCS_SPLLDIV1								6U
+#define PCS_SPLLDIV2								6U
 						
 
 /*
@@ -311,6 +275,24 @@ typedef struct
 #define PCC_PORTD_DI()					(PCC->PCC_PORTD &= ~(1U << 30))
 #define PCC_PORTE_DI()					(PCC->PCC_PORTE &= ~(1U << 30))
 
+/*
+ *	Enable Clock UART
+ */
+#define PCC_UART0_EN()					(PCC->PCC_LPUART0 |= (1U << 30))
+#define PCC_UART1_EN()					(PCC->PCC_LPUART1 |= (1U << 30))
+#define PCC_UART2_EN()					(PCC->PCC_LPUART2 |= (1U << 30))
+
+/*
+ *	Disable Clock UART
+ */
+#define PCC_UART0_DI()					(PCC->PCC_LPUART0 &= ~(1U << 30))
+#define PCC_UART1_DI()					(PCC->PCC_LPUART1 &= ~(1U << 30))
+#define PCC_UART2_DI()					(PCC->PCC_LPUART2 &= ~(1U << 30))
+
+
+/*******************************************
+ * PORT
+ *******************************************/
 #define PORTA_BASEADDR					0x40049000U
 #define PORTB_BASEADDR					0x4004A000U
 #define PORTC_BASEADDR					0x4004B000U
@@ -338,8 +320,8 @@ typedef struct
 #define PORTE										((PORT_RegDef_t*) PORTE_BASEADDR)
 
 /*
-*PORT_PCRx
-*/
+ *	PORT_PCRx
+ */
 #define PORT_PCR_PS							0U
 #define PORT_PCR_PE							1U
 #define PORT_PCR_PFE						4U
@@ -348,6 +330,12 @@ typedef struct
 #define PORT_PCR_IRQ						16U
 #define PORT_PCR_ISF						24U
 
+
+
+
+/*******************************************
+ * GPIO
+ *******************************************/
 #define GPIOA_BASE							0x400FF000U
 #define GPIOB_BASE							0x400FF040U
 #define GPIOC_BASE							0x400FF080U
@@ -542,8 +530,59 @@ typedef struct {
 #define WDOG										((WDOG_RegDef_t *)WDOG_BASE)
 
 
-#include "gpio.h"
-#include "LPIT.h"
-#include "ClockADC.h"
+/*
+ *	UART
+ */
+typedef struct
+{
+	_vo uint32_t VERID;
+	_vo uint32_t PARAM;
+	_vo uint32_t GLOBAL;
+	_vo uint32_t PINCFG;
+	_vo uint32_t BAUD;
+	_vo uint32_t STAT;
+	_vo uint32_t CTRL;
+	_vo uint32_t DATA;
+	_vo uint32_t MATCH;
+	_vo uint32_t MODIR;
+	_vo uint32_t FIFO;
+	_vo uint32_t WATER;
+}UART_RegDef_t;
+
+#define LPUART0_BASEADDR				0x4006A000
+#define LPUART1_BASEADDR				0x4006B000
+#define LPUART2_BASEADDR				0x4006C000
+
+#define UART0										((UART_RegDef_t*)LPUART0_BASEADDR)
+#define UART1										((UART_RegDef_t*)LPUART1_BASEADDR)
+#define UART2										((UART_RegDef_t*)LPUART2_BASEADDR)
+
+
+/* UART_BAUD */
+#define UART_BAUD_SBR						0U
+#define UART_BAUD_SBSN					13U
+#define UART_BAUD_OSR						24U
+
+/* UART_CTRL */
+#define UART_CTRL_PT						0U
+#define UART_CTRL_PE						1U
+#define UART_CTRL_M							4U
+#define UART_CTRL_RE						18U
+#define UART_CTRL_TE						19U
+#define UART_CTRL_RIE						21U
+#define UART_CTRL_TCIE					22U
+#define UART_CTRL_TIE						23U
+
+/* UART_STAT */
+#define UART_STAT_RDRF					21U
+#define UART_STAT_TC						22U
+#define UART_STAT_TDRE					23U
+
+
+#include "S32K1xx_gpio_driver.h"
+#include "S32K1xx_lpit_driver.h"
+#include "S32K1xx_adc_driver.h"
+#include "S32K1xx_uart_driver.h"
+#include "Clocks_and_Modes.h"
 
 #endif

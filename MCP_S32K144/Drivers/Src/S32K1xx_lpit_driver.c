@@ -1,4 +1,4 @@
-#include "LPIT.h"
+#include "S32K1xx_lpit_driver.h"
 
 void LPIT_PeriClockControl(uint8_t selectClock, uint8_t EnOrDi)
 {

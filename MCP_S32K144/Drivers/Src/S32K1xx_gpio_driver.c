@@ -1,4 +1,4 @@
-#include "gpio.h"
+#include "S32K1xx_gpio_driver.h"
 
 
 void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t EnOrDi)
@@ -87,7 +87,7 @@ void setModeIT (GPIO_RegDef_t *pGPIOx, uint8_t modeIT, uint8_t pinNumber)
 	}
 }
 
-void initGPIO (GPIO_Handle_t *pGPIOHandle)
+void GPIO_Init (GPIO_Handle_t *pGPIOHandle)
 {
 	/* Enable clock  */
 	GPIO_PeriClockControl(pGPIOHandle->pGPIOx, ENABLE);

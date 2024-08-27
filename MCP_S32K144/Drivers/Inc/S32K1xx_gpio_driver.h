@@ -70,15 +70,15 @@ typedef struct
 
 typedef struct
 {
-	GPIO_RegDef_t *pGPIOx;
-	GPIO_PinConfig_t GPIO_PinConfig;
+	GPIO_RegDef_t 		*pGPIOx;
+	GPIO_PinConfig_t	GPIO_PinConfig;
 }GPIO_Handle_t;
 
 void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t EnOrDi);
 void SetPinGPIO (GPIO_RegDef_t *pGPIOx, uint8_t mode, uint8_t pinNumber);
 void DisPUPD (GPIO_RegDef_t *pGPIOx, uint8_t pinNumber);
 void setModeIT (GPIO_RegDef_t *pGPIOx, uint8_t modeIT, uint8_t pinNumber);
-void initGPIO (GPIO_Handle_t *pGPIOHandle);
+void GPIO_Init (GPIO_Handle_t *pGPIOHandle);
 
 /*
  * Data read and write
