@@ -17,22 +17,22 @@ typedef struct
 #define PCS_SIRCDIV2								2U
 #define PCS_FIRCDIV2								3U
 #define PCS_SPLLDIV2								6U
-#define PCS_LPO128									7U
+#define PCS_LPO128								7U
 
 /* Source clock */
-#define LPO128_CLK									128000U
+#define LPO128_CLK								128000U
 
 /* Mode in TCR select mode*/
-#define Periodic_Counter						0U
-#define Dual_Periodic_16bit					1U
-#define	Trigger_Accumulator					2U
-#define Trigger_Input_Capture				3U
+#define Periodic_Counter							0U
+#define Dual_Periodic_16bit							1U
+#define	Trigger_Accumulator							2U
+#define Trigger_Input_Capture							3U
 
 /* Channel */
-#define CHANNEL0										0U
-#define CHANNEL1										1U
-#define CHANNEL2										2U
-#define CHANNEL3										3U
+#define CHANNEL0								0U
+#define CHANNEL1								1U
+#define CHANNEL2								2U
+#define CHANNEL3								3U
 
 void LPIT_PeriClockControl(uint8_t selectClock, uint8_t EnOrDi);
 void ChannelClock(LPIT_PinConfig_t LPIT_PinConfig);
