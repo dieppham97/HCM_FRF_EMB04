@@ -72,7 +72,7 @@ void DisPUPD (GPIO_RegDef_t *pGPIOx, uint8_t pinNumber)
 
 void setModeIT (GPIO_RegDef_t *pGPIOx, uint8_t modeIT, uint8_t pinNumber)
 {
-		if (pGPIOx == GPIOA)
+	if (pGPIOx == GPIOA)
 	{
 		PORTA->PCR[pinNumber] |= (uint32_t)(modeIT << PORT_PCR_IRQ);
 	}else if (pGPIOx == GPIOB)

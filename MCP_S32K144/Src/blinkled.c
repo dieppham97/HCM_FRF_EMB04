@@ -27,23 +27,22 @@ int main (void)
 	uint8_t prevButtonState = 0;
 
 	while (1)
+	{	
+		buttonState = ReadFromInput(GPIOC, GPIO_PIN_NO_13);
+		if (buttonState == 1 && prevButtonState == 0)
 		{
-			
-			buttonState = ReadFromInput(GPIOC, GPIO_PIN_NO_13);
-			if (buttonState == 1 && prevButtonState == 0)
-				{
-					ledState = !ledState;
-				}
-			if (ledState == 1)
-        {
-					GPIO_TogglePin(GPIOD, GPIO_PIN_NO_15);
-					delay();
-        }else
-        {
-					GPIO_WriteToOutput(GPIOD, GPIO_PIN_NO_15, DISABLE);
-        }
-				prevButtonState = buttonState;
-    }
+			ledState = !ledState;
+		}
+		if (ledState == 1)
+       		{
+			GPIO_TogglePin(GPIOD, GPIO_PIN_NO_15);
+			delay();
+        	}else
+        	{
+			GPIO_WriteToOutput(GPIOD, GPIO_PIN_NO_15, DISABLE);
+        	}
+		prevButtonState = buttonState;
+    	}
 }
 
 void delay (void)
