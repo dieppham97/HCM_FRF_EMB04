@@ -32,7 +32,7 @@
  * ARM Cortex Mx Processor Priority Register Address Calculation
  */
 
-#define NVIC_PR_BASE_ADDR				((_vo uint32_t*)0xE000E400)
+#define NVIC_PR_BASE_ADDR						((_vo uint32_t*)0xE000E400)
 
 /*
  *	SCG Clock
@@ -70,52 +70,52 @@ typedef struct
 	_vo uint32_t	SPLLCFG;		
 }SCG_RegDef_t;
 
-#define SCG_BASEADDR						0x40064000u
-#define SCG											((SCG_RegDef_t*)SCG_BASEADDR)
-#define SCG_CSR_SCS_MASK        0xF000000u
+#define SCG_BASEADDR							0x40064000u
+#define SCG								((SCG_RegDef_t*)SCG_BASEADDR)
+#define SCG_CSR_SCS_MASK        					0xF000000u
 
-#define RCCR_SCS								24
-#define RCCR_DIVCORE						16
+#define RCCR_SCS							24
+#define RCCR_DIVCORE							16
 #define RCCR_DIVBUS							4
-#define RCCR_DIVSLOW						0
+#define RCCR_DIVSLOW							0
 
-#define SCG_SOSCCSR_LK_MASK			0x800000u
-#define SCG_SOSCCSR_SOSCVLD_MASK	0x1000000u
-#define SOSCDIV_DIV1						0
-#define SOSCDIV_DIV2						8
-#define SOSCCFG_EREFS						2
-#define SOSCCFG_RANGE						4
-#define SCG_SOSC_EN()						(SCG->SOSCCSR |= (1 << 0))
-#define SCG_SOSC_DI()						(SCG->SOSCCSR &= ~(1U << 0))
+#define SCG_SOSCCSR_LK_MASK						0x800000u
+#define SCG_SOSCCSR_SOSCVLD_MASK					0x1000000u
+#define SOSCDIV_DIV1							0
+#define SOSCDIV_DIV2							8
+#define SOSCCFG_EREFS							2
+#define SOSCCFG_RANGE							4
+#define SCG_SOSC_EN()							(SCG->SOSCCSR |= (1 << 0))
+#define SCG_SOSC_DI()							(SCG->SOSCCSR &= ~(1U << 0))
 
-#define SCG_SIRCCSR_LK_MASK			0x800000u
-#define SIRCDIV_DIV1						0
-#define SIRCDIV_DIV2						8
-#define SIRCCFG_RANGE						0
-#define SCG_SIRC_EN()						(SCG->SIRCCSR |= (1 << 0))
-#define SCG_SIRC_DI()						(SCG->SIRCCSR &= ~(1U << 0))
+#define SCG_SIRCCSR_LK_MASK						0x800000u
+#define SIRCDIV_DIV1							0
+#define SIRCDIV_DIV2							8
+#define SIRCCFG_RANGE							0
+#define SCG_SIRC_EN()							(SCG->SIRCCSR |= (1 << 0))
+#define SCG_SIRC_DI()							(SCG->SIRCCSR &= ~(1U << 0))
 
-#define SCG_FIRCCSR_LK_MASK			0x800000u
-#define FIRCDIV_DIV1						0
-#define FIRCDIV_DIV2						8
-#define SCG_FIRC_EN()						(SCG->FIRCCSR |= (1 << 0))
-#define SCG_FIRC_DI()						(SCG->FIRCCSR &= ~(1U << 0))
+#define SCG_FIRCCSR_LK_MASK						0x800000u
+#define FIRCDIV_DIV1							0
+#define FIRCDIV_DIV2							8
+#define SCG_FIRC_EN()							(SCG->FIRCCSR |= (1 << 0))
+#define SCG_FIRC_DI()							(SCG->FIRCCSR &= ~(1U << 0))
 
-#define SCG_SPLLCSR_LK_MASK			0x800000u
-#define SCG_SPLLCSR_SPLLVLD_MASK	0x1000000u
-#define SPLLDIV_DIV1						0
-#define SPLLDIV_DIV2						8
-#define SCG_SPLL_EN()						(SCG->SPLLCSR |= (1 << 0))
-#define SCG_SPLL_DI()						(SCG->SPLLCSR &= ~(1U << 0))
-#define SPLLCFG_SOURCE					0
-#define SPLLCFG_PREDIV					8
-#define SPLLCFG_MULT						16
+#define SCG_SPLLCSR_LK_MASK						0x800000u
+#define SCG_SPLLCSR_SPLLVLD_MASK					0x1000000u
+#define SPLLDIV_DIV1							0
+#define SPLLDIV_DIV2							8
+#define SCG_SPLL_EN()							(SCG->SPLLCSR |= (1 << 0))
+#define SCG_SPLL_DI()							(SCG->SPLLCSR &= ~(1U << 0))
+#define SPLLCFG_SOURCE							0
+#define SPLLCFG_PREDIV							8
+#define SPLLCFG_MULT							16
 
 
 /* Select range SOSC */
-#define SOSC_LOW								1
+#define SOSC_LOW							1
 #define SOSC_MEDIUM							2
-#define SOSC_HIGH								3
+#define SOSC_HIGH							3
 
 #define SOSCCSR_LK							23
 #define SOSCCSR_VLD							24
@@ -123,20 +123,20 @@ typedef struct
 #define SPLLCSR_VLD							SOSCCSR_VLD
 
 /* SCG_RCCR */
-#define	SCS_OSC									1
-#define	SCS_SIRC								2
-#define	SCS_FIRC								3
-#define	SCS_PLL									6
+#define	SCS_OSC								1
+#define	SCS_SIRC							2
+#define	SCS_FIRC							3
+#define	SCS_PLL								6
 
-#define DIVCORE_1								0
-#define DIVCORE_2								1
-#define DIVCORE_3								2
-#define DIVCORE_4								3
-#define DIVCORE_5								4
-#define DIVCORE_6								5
-#define DIVCORE_7								6
-#define DIVCORE_8								7
-#define DIVCORE_9								8
+#define DIVCORE_1							0
+#define DIVCORE_2							1
+#define DIVCORE_3							2
+#define DIVCORE_4							3
+#define DIVCORE_5							4
+#define DIVCORE_6							5
+#define DIVCORE_7							6
+#define DIVCORE_8							7
+#define DIVCORE_9							8
 #define DIVCORE_10							9
 #define DIVCORE_11							10
 #define DIVCORE_12							11
@@ -145,32 +145,32 @@ typedef struct
 #define DIVCORE_15							14
 #define DIVCORE_16							15
 
-#define DIVBUS_1								0
-#define DIVBUS_2								1
-#define DIVBUS_3								2
-#define DIVBUS_4								3
-#define DIVBUS_5								4
-#define DIVBUS_6								5
-#define DIVBUS_7								6
-#define DIVBUS_8								7
-#define DIVBUS_9								8
-#define DIVBUS_10								9
-#define DIVBUS_11								10
-#define DIVBUS_12								11
-#define DIVBUS_13								12
-#define DIVBUS_14								13
-#define DIVBUS_15								14
-#define DIVBUS_16								15
+#define DIVBUS_1							0
+#define DIVBUS_2							1
+#define DIVBUS_3							2
+#define DIVBUS_4							3
+#define DIVBUS_5							4
+#define DIVBUS_6							5
+#define DIVBUS_7							6
+#define DIVBUS_8							7
+#define DIVBUS_9							8
+#define DIVBUS_10							9
+#define DIVBUS_11							10
+#define DIVBUS_12							11
+#define DIVBUS_13							12
+#define DIVBUS_14							13
+#define DIVBUS_15							14
+#define DIVBUS_16							15
 
-#define DIVSLOW_1								0
-#define DIVSLOW_2								1
-#define DIVSLOW_3								2
-#define DIVSLOW_4								3
-#define DIVSLOW_5								4
-#define DIVSLOW_6								5
-#define DIVSLOW_7								6
-#define DIVSLOW_8								7
-#define DIVSLOW_9								8
+#define DIVSLOW_1							0
+#define DIVSLOW_2							1
+#define DIVSLOW_3							2
+#define DIVSLOW_4							3
+#define DIVSLOW_5							4
+#define DIVSLOW_6							5
+#define DIVSLOW_7							6
+#define DIVSLOW_8							7
+#define DIVSLOW_9							8
 
 
 
@@ -243,61 +243,61 @@ typedef struct
 }PCC_RegDef_t;
 
 
-#define PCC_BASE								0x40065000U
-#define PCC											((PCC_RegDef_t*) PCC_BASE)
+#define PCC_BASE							0x40065000U
+#define PCC								((PCC_RegDef_t*) PCC_BASE)
 
 /* Mode in PCS select source */
-#define PCS_SOSCDIV1								1U
-#define PCS_SOSCDIV2								1U
-#define PCS_SIRCDIV1								2U
-#define PCS_SIRCDIV2								2U
-#define PCS_FIRCDIV1								3U
-#define PCS_FIRCDIV2								3U
-#define PCS_SPLLDIV1								6U
-#define PCS_SPLLDIV2								6U
+#define PCS_SOSCDIV1							1U
+#define PCS_SOSCDIV2							1U
+#define PCS_SIRCDIV1							2U
+#define PCS_SIRCDIV2							2U
+#define PCS_FIRCDIV1							3U
+#define PCS_FIRCDIV2							3U
+#define PCS_SPLLDIV1							6U
+#define PCS_SPLLDIV2							6U
 						
 
 /*
 * Enable Clock PORT
 */
-#define PCC_PORTA_EN()					(PCC->PCC_PORTA |= (1U << 30))
-#define PCC_PORTB_EN()					(PCC->PCC_PORTB |= (1U << 30))
-#define PCC_PORTC_EN()					(PCC->PCC_PORTC |= (1U << 30))
-#define PCC_PORTD_EN()					(PCC->PCC_PORTD |= (1U << 30))
-#define PCC_PORTE_EN()					(PCC->PCC_PORTE |= (1U << 30))
+#define PCC_PORTA_EN()							(PCC->PCC_PORTA |= (1U << 30))
+#define PCC_PORTB_EN()							(PCC->PCC_PORTB |= (1U << 30))
+#define PCC_PORTC_EN()							(PCC->PCC_PORTC |= (1U << 30))
+#define PCC_PORTD_EN()							(PCC->PCC_PORTD |= (1U << 30))
+#define PCC_PORTE_EN()							(PCC->PCC_PORTE |= (1U << 30))
 
 /*
 * Disable Clock PORT
 */
-#define PCC_PORTA_DI()					(PCC->PCC_PORTA &= ~(1U << 30))
-#define PCC_PORTB_DI()					(PCC->PCC_PORTB &= ~(1U << 30))
-#define PCC_PORTC_DI()					(PCC->PCC_PORTC &= ~(1U << 30))
-#define PCC_PORTD_DI()					(PCC->PCC_PORTD &= ~(1U << 30))
-#define PCC_PORTE_DI()					(PCC->PCC_PORTE &= ~(1U << 30))
+#define PCC_PORTA_DI()							(PCC->PCC_PORTA &= ~(1U << 30))
+#define PCC_PORTB_DI()							(PCC->PCC_PORTB &= ~(1U << 30))
+#define PCC_PORTC_DI()							(PCC->PCC_PORTC &= ~(1U << 30))
+#define PCC_PORTD_DI()							(PCC->PCC_PORTD &= ~(1U << 30))
+#define PCC_PORTE_DI()							(PCC->PCC_PORTE &= ~(1U << 30))
 
 /*
  *	Enable Clock UART
  */
-#define PCC_UART0_EN()					(PCC->PCC_LPUART0 |= (1U << 30))
-#define PCC_UART1_EN()					(PCC->PCC_LPUART1 |= (1U << 30))
-#define PCC_UART2_EN()					(PCC->PCC_LPUART2 |= (1U << 30))
+#define PCC_UART0_EN()							(PCC->PCC_LPUART0 |= (1U << 30))
+#define PCC_UART1_EN()							(PCC->PCC_LPUART1 |= (1U << 30))
+#define PCC_UART2_EN()							(PCC->PCC_LPUART2 |= (1U << 30))
 
 /*
  *	Disable Clock UART
  */
-#define PCC_UART0_DI()					(PCC->PCC_LPUART0 &= ~(1U << 30))
-#define PCC_UART1_DI()					(PCC->PCC_LPUART1 &= ~(1U << 30))
-#define PCC_UART2_DI()					(PCC->PCC_LPUART2 &= ~(1U << 30))
+#define PCC_UART0_DI()							(PCC->PCC_LPUART0 &= ~(1U << 30))
+#define PCC_UART1_DI()							(PCC->PCC_LPUART1 &= ~(1U << 30))
+#define PCC_UART2_DI()							(PCC->PCC_LPUART2 &= ~(1U << 30))
 
 
 /*******************************************
  * PORT
  *******************************************/
-#define PORTA_BASEADDR					0x40049000U
-#define PORTB_BASEADDR					0x4004A000U
-#define PORTC_BASEADDR					0x4004B000U
-#define PORTD_BASEADDR					0x4004C000U
-#define PORTE_BASEADDR					0x4004D000U
+#define PORTA_BASEADDR							0x40049000U
+#define PORTB_BASEADDR							0x4004A000U
+#define PORTC_BASEADDR							0x4004B000U
+#define PORTD_BASEADDR							0x4004C000U
+#define PORTE_BASEADDR							0x4004D000U
 
 typedef struct
 {
@@ -313,22 +313,22 @@ typedef struct
 }PORT_RegDef_t;
 
 /*PORTx */
-#define PORTA										((PORT_RegDef_t*) PORTA_BASEADDR)
-#define PORTB										((PORT_RegDef_t*) PORTB_BASEADDR)
-#define PORTC										((PORT_RegDef_t*) PORTC_BASEADDR)
-#define PORTD										((PORT_RegDef_t*) PORTD_BASEADDR)
-#define PORTE										((PORT_RegDef_t*) PORTE_BASEADDR)
+#define PORTA								((PORT_RegDef_t*) PORTA_BASEADDR)
+#define PORTB								((PORT_RegDef_t*) PORTB_BASEADDR)
+#define PORTC								((PORT_RegDef_t*) PORTC_BASEADDR)
+#define PORTD								((PORT_RegDef_t*) PORTD_BASEADDR)
+#define PORTE								((PORT_RegDef_t*) PORTE_BASEADDR)
 
 /*
  *	PORT_PCRx
  */
 #define PORT_PCR_PS							0U
 #define PORT_PCR_PE							1U
-#define PORT_PCR_PFE						4U
-#define PORT_PCR_DSE						6U
-#define PORT_PCR_MUX						8U
-#define PORT_PCR_IRQ						16U
-#define PORT_PCR_ISF						24U
+#define PORT_PCR_PFE							4U
+#define PORT_PCR_DSE							6U
+#define PORT_PCR_MUX							8U
+#define PORT_PCR_IRQ							16U
+#define PORT_PCR_ISF							24U
 
 
 
@@ -353,18 +353,18 @@ typedef struct
 	_vo uint32_t PIDR;						/*Port Input Disable Register */
 }GPIO_RegDef_t;
 
-#define GPIOA										((GPIO_RegDef_t*) GPIOA_BASE)
-#define GPIOB										((GPIO_RegDef_t*) GPIOB_BASE)
-#define GPIOC										((GPIO_RegDef_t*) GPIOC_BASE)
-#define GPIOD										((GPIO_RegDef_t*) GPIOD_BASE)
-#define GPIOE										((GPIO_RegDef_t*) GPIOE_BASE)
+#define GPIOA								((GPIO_RegDef_t*) GPIOA_BASE)
+#define GPIOB								((GPIO_RegDef_t*) GPIOB_BASE)
+#define GPIOC								((GPIO_RegDef_t*) GPIOC_BASE)
+#define GPIOD								((GPIO_RegDef_t*) GPIOD_BASE)
+#define GPIOE								((GPIO_RegDef_t*) GPIOE_BASE)
 
 
 /*
  *	IRQ Number
  */
-#define IRQ_PORTC								61
-#define IRQ_PORTD								62
+#define IRQ_PORTC							61
+#define IRQ_PORTD							62
 
 
 /*
@@ -379,12 +379,12 @@ typedef struct
 }SysTick_RegDef_t;
 
 				
-#define SYSTICK									((SysTick_RegDef_t*)0xE000E010U)
-#define SYSTICK_TIMER_CLK				48000000U
+#define SYSTICK								((SysTick_RegDef_t*)0xE000E010U)
+#define SYSTICK_TIMER_CLK						48000000U
 
-#define SYSTICK_CSR_EN					0
-#define SYSTICK_CSR_TICKINT			1
-#define SYSTICK_CSR_CLKSOURCE		2
+#define SYSTICK_CSR_EN							0
+#define SYSTICK_CSR_TICKINT						1
+#define SYSTICK_CSR_CLKSOURCE						2
 
 /*
  *	LPIT
@@ -416,42 +416,42 @@ typedef struct
 	_vo uint32_t TCTRL3;	
 }LPIT_RegDef_t;
 
-#define LPIT										((LPIT_RegDef_t*)0x40037000)
+#define LPIT								((LPIT_RegDef_t*)0x40037000)
 
 /*	Module PCS */
-#define PCC_LPIT_Clock1()				(PCC->PCC_LPIT |= (1U << 24))
-#define PCC_LPIT_Clock2()				(PCC->PCC_LPIT |= (2U << 24))
-#define PCC_LPIT_Clock3()				(PCC->PCC_LPIT |= (3U << 24))
-#define PCC_LPIT_Clock4()				(PCC->PCC_LPIT |= (4U << 24))
-#define PCC_LPIT_Clock5()				(PCC->PCC_LPIT |= (5U << 24))
-#define PCC_LPIT_Clock6()				(PCC->PCC_LPIT |= (6U << 24))
-#define PCC_LPIT_Clock7()				(PCC->PCC_LPIT |= (7U << 24))
+#define PCC_LPIT_Clock1()						(PCC->PCC_LPIT |= (1U << 24))
+#define PCC_LPIT_Clock2()						(PCC->PCC_LPIT |= (2U << 24))
+#define PCC_LPIT_Clock3()						(PCC->PCC_LPIT |= (3U << 24))
+#define PCC_LPIT_Clock4()						(PCC->PCC_LPIT |= (4U << 24))
+#define PCC_LPIT_Clock5()						(PCC->PCC_LPIT |= (5U << 24))
+#define PCC_LPIT_Clock6()						(PCC->PCC_LPIT |= (6U << 24))
+#define PCC_LPIT_Clock7()						(PCC->PCC_LPIT |= (7U << 24))
 
 /* Enable/Disable Clock LPIT */
-#define PCC_LPIT_EN()						(PCC->PCC_LPIT |= (1U << 30))
-#define PCC_LPIT_DI()						(PCC->PCC_LPIT &= ~(1U << 30))
+#define PCC_LPIT_EN()							(PCC->PCC_LPIT |= (1U << 30))
+#define PCC_LPIT_DI()							(PCC->PCC_LPIT &= ~(1U << 30))
 
 /* Module Control Register */
-#define LPIT_MCR								0
+#define LPIT_MCR							0
 #define LPIT_SW_RST							1
-#define LPIT_DOZE_EN						2
+#define LPIT_DOZE_EN							2
 #define LPIT_DBG_EN							3
 
 /* Timer control Register*/
-#define TCR_EN									0
-#define TCR_CHAIN								1
-#define TCR_MODE								2
-#define TCR_TOST								16
-#define TCR_TOSI								17
-#define TCR_TROT								18
+#define TCR_EN								0
+#define TCR_CHAIN							1
+#define TCR_MODE							2
+#define TCR_TOST							16
+#define TCR_TOSI							17
+#define TCR_TROT							18
 #define TCR_TRG_SRC							23
-#define TRG_SEL									24
+#define TRG_SEL								24
 
 /* IRQ_Interrupt of LPIT */
-#define LPIT_IT0								48
-#define LPIT_IT1								49
-#define LPIT_IT2								50
-#define LPIT_IT3								51
+#define LPIT_IT0							48
+#define LPIT_IT1							49
+#define LPIT_IT2							50
+#define LPIT_IT3							51
 
 
 /*
@@ -495,39 +495,39 @@ typedef struct
 	
 }ADC_RegDef_t;
 
-#define ADC0_BASEADDR						0x4003B000U
-#define ADC1_BASEADDR						0x40027000U
-#define ADC0										((ADC_RegDef_t*) ADC0_BASEADDR)
-#define ADC1										((ADC_RegDef_t*) ADC1_BASEADDR)
+#define ADC0_BASEADDR							0x4003B000U
+#define ADC1_BASEADDR							0x40027000U
+#define ADC0								((ADC_RegDef_t*) ADC0_BASEADDR)
+#define ADC1								((ADC_RegDef_t*) ADC1_BASEADDR)
 
 /*
 * Enable Clock ADC
 */
-#define PCC_ADC0_EN()						(PCC->PCC_ADC0 |= (1U << 30))
-#define PCC_ADC1_EN()						(PCC->PCC_ADC1 |= (1U << 30))
+#define PCC_ADC0_EN()							(PCC->PCC_ADC0 |= (1U << 30))
+#define PCC_ADC1_EN()							(PCC->PCC_ADC1 |= (1U << 30))
 
 /*
 *	Disable Clock ADC
 */
-#define PCC_ADC0_DI()						(PCC->PCC_ADC0 &= ~(1U << 30))
-#define PCC_ADC1_DI()						(PCC->PCC_ADC1 &= ~(1U << 30))
+#define PCC_ADC0_DI()							(PCC->PCC_ADC0 &= ~(1U << 30))
+#define PCC_ADC1_DI()							(PCC->PCC_ADC1 &= ~(1U << 30))
 
 /*	Module PCS */
-#define PCC_ADC0_SOSCCLK()			(PCC->PCC_ADC0 |= (1U << 24))
-#define PCC_ADC0_SIRCCLK()			(PCC->PCC_ADC0 |= (2U << 24))
-#define PCC_ADC0_FIRCCLK()			(PCC->PCC_ADC0 |= (3U << 24))
-#define PCC_ADC0_SPLLCLK()			(PCC->PCC_ADC0 |= (6U << 24))
+#define PCC_ADC0_SOSCCLK()						(PCC->PCC_ADC0 |= (1U << 24))
+#define PCC_ADC0_SIRCCLK()						(PCC->PCC_ADC0 |= (2U << 24))
+#define PCC_ADC0_FIRCCLK()						(PCC->PCC_ADC0 |= (3U << 24))
+#define PCC_ADC0_SPLLCLK()						(PCC->PCC_ADC0 |= (6U << 24))
 
 
 typedef struct {
   _vo uint32_t CS; 							/**< Watchdog Control and Status Register, offset: 0x0 */
   _vo uint32_t CNT;							/**< Watchdog Counter Register, offset: 0x4 */
-  _vo uint32_t TOVAL;						/**< Watchdog Timeout Value Register, offset: 0x8 */
+  _vo uint32_t TOVAL;							/**< Watchdog Timeout Value Register, offset: 0x8 */
   _vo uint32_t WIN;							/**< Watchdog Window Register, offset: 0xC */
 } WDOG_RegDef_t;
 
-#define WDOG_BASE								(0x40052000u)
-#define WDOG										((WDOG_RegDef_t *)WDOG_BASE)
+#define WDOG_BASE							(0x40052000u)
+#define WDOG								((WDOG_RegDef_t *)WDOG_BASE)
 
 
 /*
@@ -549,34 +549,34 @@ typedef struct
 	_vo uint32_t WATER;
 }UART_RegDef_t;
 
-#define LPUART0_BASEADDR				0x4006A000
-#define LPUART1_BASEADDR				0x4006B000
-#define LPUART2_BASEADDR				0x4006C000
+#define LPUART0_BASEADDR						0x4006A000
+#define LPUART1_BASEADDR						0x4006B000
+#define LPUART2_BASEADDR						0x4006C000
 
-#define UART0										((UART_RegDef_t*)LPUART0_BASEADDR)
-#define UART1										((UART_RegDef_t*)LPUART1_BASEADDR)
-#define UART2										((UART_RegDef_t*)LPUART2_BASEADDR)
+#define UART0								((UART_RegDef_t*)LPUART0_BASEADDR)
+#define UART1								((UART_RegDef_t*)LPUART1_BASEADDR)
+#define UART2								((UART_RegDef_t*)LPUART2_BASEADDR)
 
 
 /* UART_BAUD */
-#define UART_BAUD_SBR						0U
-#define UART_BAUD_SBSN					13U
-#define UART_BAUD_OSR						24U
+#define UART_BAUD_SBR							0U
+#define UART_BAUD_SBSN							13U
+#define UART_BAUD_OSR							24U
 
 /* UART_CTRL */
-#define UART_CTRL_PT						0U
-#define UART_CTRL_PE						1U
+#define UART_CTRL_PT							0U
+#define UART_CTRL_PE							1U
 #define UART_CTRL_M							4U
-#define UART_CTRL_RE						18U
-#define UART_CTRL_TE						19U
-#define UART_CTRL_RIE						21U
-#define UART_CTRL_TCIE					22U
-#define UART_CTRL_TIE						23U
+#define UART_CTRL_RE							18U
+#define UART_CTRL_TE							19U
+#define UART_CTRL_RIE							21U
+#define UART_CTRL_TCIE							22U
+#define UART_CTRL_TIE							23U
 
 /* UART_STAT */
-#define UART_STAT_RDRF					21U
-#define UART_STAT_TC						22U
-#define UART_STAT_TDRE					23U
+#define UART_STAT_RDRF							21U
+#define UART_STAT_TC							22U
+#define UART_STAT_TDRE							23U
 
 
 #include "S32K1xx_gpio_driver.h"
