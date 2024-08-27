@@ -166,7 +166,7 @@ void SourcePLL (void)
 			VCO_CLK = SPLL_SOURCE/(PREDIV + 1) X (MULT + 16)
 	*/
 	SCG->SPLLCFG = (SPLL_PREDIV1 << SPLLCFG_PREDIV) 
-									| (SPLL_MULT40 << SPLLCFG_MULT);		/* VCO = 320 Mhz, SPLLCLK = 160MHz*/
+			| (SPLL_MULT40 << SPLLCFG_MULT);		/* VCO = 320 Mhz, SPLLCLK = 160MHz*/
 	
 	while (SCG->SPLLCSR & SCG_SPLLCSR_LK_MASK);
 	SCG_SPLL_EN();
@@ -180,7 +180,7 @@ void RunNormalMode_80MHz(void)
 {
 	/* Run mode */
 	SCG->RCCR = ((SCS_PLL << RCCR_SCS)	| (1 << RCCR_DIVCORE) 
-																			| (1 << RCCR_DIVBUS) 
-																			| (2 << RCCR_DIVSLOW));
+						| (1 << RCCR_DIVBUS) 
+						| (2 << RCCR_DIVSLOW));
 	while (((SCG->CSR & 0xF000000) >> 24) != 6);
 }
