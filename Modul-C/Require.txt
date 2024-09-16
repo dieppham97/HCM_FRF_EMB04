@@ -1,0 +1,40 @@
+Requirements:
+Our application will have following features:
+1. The application has 2 running modes: Admin mode, Normal mode.
+	- When runs, the application will show a menu which user can choose Admin mode or Normal
+	mode.
+	- After user chose a mode, an appropriate menu will be showed.
+	
+2. Admin Mode:
+	- The system has only 1 account for administrator with default password is 12345678. This default
+	password is secured and only the administrator knows it.
+	- In Admin mode, the administrator can do following actions:
+	o Change Admin password.
+	o Add employees who has 3 items: Employee ID, full name, basic salary (how many VND per hour). When the employee input ends, save these employees to data file.
+	Note: To avoid duplication for Employee ID, the application will automatically generate the Employee ID when admin user input information for employees.
+	o View information of all employees (Employee ID, full name, basic salary).
+	o View working time of a specified employee.
+	o Calculate salary for all employees. The salary is calculated as below rules:
+		+ Formula: Salary = basic salary * actual working time.
+		+ Each day, if check-in time is over 30 minutes late, that day salary minus 20,000 VND. This is call punished money.
+		+ Each day, if check-out time is over 30 minutes early, that day salary minus 20,000 VND. This is call punished money.
+		+ If the working time is longer than the requested time, salary doesn’t plus. For
+		example: basic salary is: 110,000 VND/h; requested time (in month) is: 184 hours
+		=> salary = 20,240,000 VND. If actual working time is 200 hours, salary is still 20,240,000 VND.
+		
+3. Normal Mode:
+	- When user chooses Normal mode, a menu will be showed with 2 items: Check-in, Check-out.
+	- When user chooses Check-in (for example: at morning) or Check-out (for example: atafternoon), the application requests user to input employee ID.
+		After employee finishes inputting employee ID, the application will show full name of theemployee and wait for confirmation from employee.
+		If the employee confirms, the application automatically gets current time and add to the item
+		“Check-in time” or “Check-out time” respectively of this employee and save to data file.
+	- After saved check-in or check-out time for an employee, the application will return to the menu of
+		Normal mode which shows 2 items Check-in and Check-out, so that other employee can choose
+		conveniently.C Fundamental Issue/Revision: 1.0
+		
+4. Others:
+	- The admin password should be encrypted before save to data file. For simple implementation, use the below encryption algorithm (2 steps only):
+		+ Step 1: Reverse all characters of the input password.
+		+ Step 2: Each character plus 24.
+	- Full name of employee has maximum length is 24 characters.
+	- Check-in and check-out time is counted in minutes.
