@@ -173,12 +173,13 @@ void LPIT_Init(LPIT_PinConfig_t LPIT_PinConfig)
 		break;
 	}
 	}
+	if (LPIT_PinConfig.Interrupt == ENABLE)
+	{
+		LPIT->MIER |= (1 << LPIT_PinConfig.Channel);
+	}
 
 	/* Configure and enable the specified channel */
 	ChannelClock(LPIT_PinConfig);
-
-	/* Enable interrupt */
-	LPIT_IRQInterruptConfig(LPIT_PinConfig.Interrupt, ENABLE);
 }
 
 /*******************************************************************************

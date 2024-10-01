@@ -1,9 +1,11 @@
+
 /*
  * main.c
  *
  *  Created on: Sep 29, 2023
  *      Author: Diep Pham
  */
+
 #include "main.h"
 
 int main(void)
@@ -32,22 +34,11 @@ int main(void)
 			SW2_Status = !SW2_Status;
 		}
 		Check_SW2();
+
 		Potentiometer();
 		tempIntensi = (INTENSITY | ADC_Pe);
 		SPI_SendData(SPI1, tempIntensi);
 
-#if 0
-		if (TouchSense1())
-		{
-			IntensityTouch++;
-			if (IntensityTouch > 15)
-			{
-				IntensityTouch = 15;
-			}
-			tempIntensi = (INTENSITY | IntensityTouch);
-			SPI_SendData(SPI1, tempIntensi);
-		}
-#endif
 		if (data_request != 0)
 		{
 			Check_ReceiveData();

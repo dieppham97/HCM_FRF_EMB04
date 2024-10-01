@@ -35,60 +35,60 @@ typedef struct
 /*
  * SPI Mode
  */
-#define SPI_MASTER 1U
-#define SPI_SLAVE 0U
+#define SPI_MASTER 						1U
+#define SPI_SLAVE 						0U
 
 /*
  * SPI PCS
  */
-#define SPI_PCS0 0U
-#define SPI_PCS1 1U
-#define SPI_PCS2 2U
-#define SPI_PCS3 3U
-
+#define SPI_PCS0 							0U
+#define SPI_PCS1 							1U
+#define SPI_PCS2 							2U
+#define SPI_PCS3 							3U
+							
 /*
  * SPI DFF
  */
-#define SPI_DFF_8BITS 7u
-#define SPI_DFF_16BITS 15U
+#define SPI_DFF_8BITS 				7U
+#define SPI_DFF_16BITS 				15U
 
 /*
  * SPI CPHA
  */
-#define SPI_CPHA_HIGH 1U
-#define SPI_CPHA_LOW 0U
+#define SPI_CPHA_HIGH 				1U
+#define SPI_CPHA_LOW 					0U
 
 /*
  * SPI CPOL
  */
-#define SPI_CPOL_HIGH 1U
-#define SPI_CPOL_LOW 0U
+#define SPI_CPOL_HIGH 				1U
+#define SPI_CPOL_LOW 					0U
 
 /*
  * SPI Prescale
  */
-#define SPI_PRESCALE_DIV1 0U
-#define SPI_PRESCALE_DIV2 1U
-#define SPI_PRESCALE_DIV4 2U
-#define SPI_PRESCALE_DIV8 3U
-#define SPI_PRESCALE_DIV16 4U
-#define SPI_PRESCALE_DIV32 5U
-#define SPI_PRESCALE_DIV42 6U
-#define SPI_PRESCALE_DIV128 7U
+#define SPI_PRESCALE_DIV1 		0U
+#define SPI_PRESCALE_DIV2 		1U
+#define SPI_PRESCALE_DIV4 		2U
+#define SPI_PRESCALE_DIV8 		3U
+#define SPI_PRESCALE_DIV16 		4U
+#define SPI_PRESCALE_DIV32 		5U
+#define SPI_PRESCALE_DIV42 		6U
+#define SPI_PRESCALE_DIV128 	7U
 
 /*
  * SPI LSB
  */
-#define SPI_LSB_MSBF 0U
-#define SPI_LSB_LSBF 1U
+#define SPI_LSB_MSBF 					0U
+#define SPI_LSB_LSBF 					1U
 
 /*
  * SPI Leng Word
  */
-#define SPI_LENG_1W 0U
-#define SPI_LENG_2W 1U
-#define SPI_LENG_3W 2U
-#define SPI_LENG_4W 3U
+#define SPI_LENG_1W 					0U
+#define SPI_LENG_2W 					1U
+#define SPI_LENG_3W 					2U
+#define SPI_LENG_4W 					3U
 
 void SPI_PeriClockControl(SPI_Handle_t *pSPIHandle, uint8_t EnOrDi);
 uint32_t SetSCK(SPI_Handle_t *pSPIHandle);

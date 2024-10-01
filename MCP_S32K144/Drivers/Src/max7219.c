@@ -25,9 +25,21 @@ void Max7219_Init(MAX7219_Config_t pMax7219, SPI_RegDef_t *pSPIx)
   SPI_SendData(pSPIx, temp);
 }
 
-/// @brief
-/// @param digit
-/// @param value
+/*******************************************************************************
+ * @fn              - DIGITx_Init
+ *
+ * @brief           - This function initializes a specific digit on the MAX7219 LED display
+ *
+ * @param[in]       - pSPIx: Pointer to the SPI peripheral used for communication
+ * @param[in]       - digit: The digit position to initialize (DIGIT0 to DIGIT7)
+ * @param[in]       - value: The value to display (0-9, '-', 'E', 'H', 'L', 'P', or any other for blank)
+ * @param[in]       - point: Whether to enable the decimal point (POINT_EN or POINT_DI)
+ *
+ * @return          - None
+ *
+ * @Note            - This function sets up a single digit on the MAX7219 LED display
+ *                    It supports numbers 0-9 and some letters, with optional decimal point
+ */
 void DIGITx_Init(SPI_RegDef_t *pSPIx, uint16_t digit, uint8_t value, uint8_t point)
 {
   uint16_t temp = 0;
@@ -150,6 +162,21 @@ void DIGITx_Init(SPI_RegDef_t *pSPIx, uint16_t digit, uint8_t value, uint8_t poi
   SPI_SendData(pSPIx, temp);
 }
 
+/*******************************************************************************
+ * @fn              - DISPLAY_Date
+ *
+ * @brief           - This function displays the date on a 7-segment display using SPI communication
+ *
+ * @param[in]       - pSPI: Pointer to the SPI peripheral register structure
+ * @param[in]       - day: Day of the month (1-31)
+ * @param[in]       - month: Month of the year (1-12)
+ * @param[in]       - year: Year (e.g., 2023)
+ *
+ * @return          - None
+ *
+ * @Note            - The date is displayed in the format: DD.MM.YYYY
+ *                    The function uses DIGITx_Init to set each digit of the display
+ */
 void DISPLAY_Date(SPI_RegDef_t *pSPI, uint8_t day, uint8_t month, uint16_t year)
 {
   uint8_t month_d1, month_d2;
@@ -167,7 +194,7 @@ void DISPLAY_Date(SPI_RegDef_t *pSPI, uint8_t day, uint8_t month, uint16_t year)
 
   /* Set Month */
 
-  if (day < 10)
+  if (month < 10)
   {
     month_d1 = 0;
     month_d2 = (month % 10);
@@ -197,6 +224,21 @@ void DISPLAY_Date(SPI_RegDef_t *pSPI, uint8_t day, uint8_t month, uint16_t year)
   DIGITx_Init(pSPI, DIGIT7, day_d1, POINT_DI);
 }
 
+/*******************************************************************************
+ * @fn              - DISPLAY_Time
+ *
+ * @brief           - This function displays the time on a 7-segment display using SPI communication
+ *
+ * @param[in]       - pSPI: Pointer to the SPI peripheral register structure
+ * @param[in]       - sec: Seconds (0-59)
+ * @param[in]       - min: Minutes (0-59)
+ * @param[in]       - hour: Hours (0-23)
+ *
+ * @return          - None
+ *
+ * @Note            - The time is displayed in the format: HH-MM-SS
+ *                    The function uses DIGITx_Init to set each digit of the display
+ */
 void DISPLAY_Time(SPI_RegDef_t *pSPI, uint8_t sec, uint8_t min, uint8_t hour)
 {
   uint8_t sec_d1, sec_d2;
@@ -249,11 +291,25 @@ void DISPLAY_Time(SPI_RegDef_t *pSPI, uint8_t sec, uint8_t min, uint8_t hour)
   DIGITx_Init(pSPI, DIGIT0, sec_d2, POINT_DI);
 }
 
+/*******************************************************************************
+ * @fn              - Toggle_Display
+ *
+ * @brief           - This function toggles the display on and off for a specified number of times
+ *
+ * @param[in]       - pSPIx: Pointer to the SPI peripheral used for communication
+ * @param[in]       - toggle: Number of times to toggle the display
+ *
+ * @return          - None
+ *
+ * @Note            - This function uses the SHUT_DOWN register to turn the display on and off
+ *                    It waits for a delay between each toggle to make the effect visible
+ */
 void Toggle_Display(SPI_RegDef_t *pSPIx, uint8_t toggle)
 {
   uint16_t temp_Display = 0;
   for (int i = 0; i < toggle; i++)
   {
+    // Turn off the display
     temp_Display = (SHUT_DOWN | 0x00);
     SPI_SendData(pSPIx, temp_Display);
     while (delay < 1)
@@ -262,6 +318,7 @@ void Toggle_Display(SPI_RegDef_t *pSPIx, uint8_t toggle)
     {
       delay = 0;
     }
+    // Turn on the display
     temp_Display = (SHUT_DOWN | 0x01);
     SPI_SendData(pSPIx, temp_Display);
     while (delay < 1)
@@ -273,48 +330,26 @@ void Toggle_Display(SPI_RegDef_t *pSPIx, uint8_t toggle)
   }
 }
 
-void Display_Fault(SPI_RegDef_t *pSPIx)
-{
-  uint16_t temp = 0;
-  SPI_SendData(pSPIx, 0x0900);
-  /* Display format */
-  /* DIGIT 0 */
-  temp = (DIGIT0 | LED_G);
-  SPI_SendData(pSPIx, temp);
-  /* DIGIT 1 */
-  temp = (DIGIT1 | LED_A | LED_F | LED_E);
-  SPI_SendData(pSPIx, temp);
-  /* DIGIT 2 */
-  temp = (DIGIT2 | LED_A | LED_B | LED_C);
-  SPI_SendData(pSPIx, temp);
-  /* DIGIT 3 */
-  temp = (DIGIT3 | LED_F | LED_E | LED_D);
-  SPI_SendData(pSPIx, temp);
-  /* DIGIT 4 */
-  temp = (DIGIT4 | LED_F | LED_E | LED_B | LED_C | LED_D);
-  SPI_SendData(pSPIx, temp);
-  /* DIGIT 5 */
-  temp = (DIGIT5 | LED_F | LED_E | LED_A | LED_G | LED_C | LED_B);
-  SPI_SendData(pSPIx, temp);
-  /* DIGIT 6 */
-  temp = (DIGIT6 | LED_F | LED_E | LED_A | LED_G);
-  SPI_SendData(pSPIx, temp);
-  /* DIGIT 7 */
-  temp = (DIGIT7 | LED_G);
-  SPI_SendData(pSPIx, temp);
-  /* Delay */
-  Toggle_Display(pSPIx, 3);
-  /* Back decode 0-7  */
-  temp = (DECODE | 0xFF);
-  SPI_SendData(pSPIx, temp);
-}
-
+/*******************************************************************************
+ * @fn              - Display_Error
+ *
+ * @brief           - This function displays an error message on the MAX7219 LED display
+ *
+ * @param[in]       - pSPIx: Pointer to the SPI peripheral used for communication
+ * @param[in]       - error: The error code to display
+ *
+ * @return          - None
+ *
+ * @Note            - This function displays different error messages based on the error code
+ *                    It uses specific LED segments to represent different types of errors
+ *                    After displaying the error, it toggles the display and resets to decode mode
+ */
 void Display_Error(SPI_RegDef_t *pSPIx, uint8_t error)
 {
   uint16_t temp = 0;
   SPI_SendData(pSPIx, 0x0900);
   /* DIGIT 0 */
-  temp = (DIGIT0 | LED_G);
+  temp = (DIGIT0 | 0);
   SPI_SendData(pSPIx, temp);
   /* DIGIT 2 */
   temp = (DIGIT2 | LED_G);
@@ -346,7 +381,10 @@ void Display_Error(SPI_RegDef_t *pSPIx, uint8_t error)
   else if (error == ERROR_FORMAT)
   {
     /* DIGIT 1 */
-    temp = (DIGIT1 | LED_G);
+    temp = (DIGIT1 | 0);
+    SPI_SendData(pSPIx, temp);
+    /* DIGIT 2 */
+    temp = (DIGIT2 | 0);
     SPI_SendData(pSPIx, temp);
     /* DIGIT 3 */
     temp = (DIGIT3 | LED_A | LED_B | LED_G | LED_C | LED_D);
@@ -360,28 +398,28 @@ void Display_Error(SPI_RegDef_t *pSPIx, uint8_t error)
     if (error == ERROR_DATE_MONTH)
     {
       /* DIGIT 1 */
-      temp = (DIGIT1 | LED_B | LED_C);
+      temp = (DIGIT1 | LED_A | LED_B | LED_G | LED_E | LED_D);
       SPI_SendData(pSPIx, temp);
     }
     else if (error == ERROR_DATE_DAY)
     {
       /* DIGIT 1 */
-      temp = (DIGIT1 | LED_A | LED_B | LED_G | LED_E | LED_D);
+      temp = (DIGIT1 | LED_B | LED_C);
       SPI_SendData(pSPIx, temp);
     }
   }
 
   /* DIGIT 4 */
-  temp = (DIGIT4 | LED_F | LED_E | LED_B | LED_C | LED_D);
+  temp = (DIGIT4 | LED_F | LED_E | LED_A);
   SPI_SendData(pSPIx, temp);
   /* DIGIT 5 */
   temp = (DIGIT5 | LED_F | LED_E | LED_A);
   SPI_SendData(pSPIx, temp);
   /* DIGIT 6 */
-  temp = (DIGIT6 | LED_F | LED_E | LED_A);
+  temp = (DIGIT6 | LED_G | LED_A | LED_F | LED_E | LED_D);
   SPI_SendData(pSPIx, temp);
   /* DIGIT 7 */
-  temp = (DIGIT7 | LED_G | LED_A | LED_F | LED_E | LED_D);
+  temp = (DIGIT7 | 0);
   SPI_SendData(pSPIx, temp);
   /* Delay */
   Toggle_Display(pSPIx, 3);

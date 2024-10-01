@@ -9,19 +9,11 @@
 #define MAIN_H_
 
 #include "max7219.h"
-#include "TOUCH1.h"
-#include "TOUCH2.h"
-// #include "S32K1xx_gpio_driver.h"
-// #include "S32K1xx_spi_driver.h"
+#include "S32K1xx_gpio_driver.h"
 #include "S32K1xx_lpit_driver.h"
 #include "S32K1xx_adc_driver.h"
 #include "S32K1xx_uart_driver.h"
 #include "Clocks_and_Modes.h"
-
-#define ELEC1_TOUCHED_LIMIT_VALUE 3500
-#define ELEC1_DIST_CHARGE_DELAY 100
-#define ELEC2_TOUCHED_LIMIT_VALUE 3000
-#define ELEC2_DIST_CHARGE_DELAY 100
 
 MAX7219_date_t cur_date, check_date;
 MAX7219_time_t cur_time, check_time, alarm_time;
@@ -173,7 +165,7 @@ void MAX7219_Init(SPI_RegDef_t *pSPIx)
 
   Max7219.Decode_Mode = DECODE_FULL; /* Set full decode mode for all digits */
   Max7219.Intensity_Mode = INTEN_1;  /* Set display intensity to level 1 (lowest) */
-  IntensityTouch = INTEN_1;          /* Update global variable for current intensity */
+  IntensityTouch = INTEN_1;
   Max7219.ScanLimit_Mode = SCAN_0_7; /* Set scan limit to display all 8 digits */
   Max7219.ShutDown_Mode = SHUTD_ON;  /* Turn on the display (normal operation) */
 
@@ -329,6 +321,7 @@ void USART1_GPIOInit(void)
   GPIO_Init(&Uart1_Gpio);                                   /* Initialize RX pin */
 }
 
+
 /*******************************************************************************
  * @fn              - LPIT0_Init
  *
@@ -464,7 +457,7 @@ void Check_SW3(void)
  *                    numeric values and stores them in the check_time structure
  *
  * @param[in]       - rx_time: Pointer to a character array containing the time string
- *                    in the format "HH:MM:SS"
+ *                    in the format "HH-MM-SS"
  * @param[in]       - EnOrDi: Enable or Disable flag
  *
  * @return          - None
@@ -493,7 +486,7 @@ void String_To_Time(char *rx_time, uint8_t EnOrDi)
  *                    numeric values and stores them in the check_date structure
  *
  * @param[in]       - rx_date: Pointer to a character array containing the date string
- *                    in the format "DD/MM/YYYY"
+ *                    in the format "DD.MM.YYYY"
  * @param[in]       - EnOrDi: Enable or Disable flag
  *
  * @return          - None
@@ -614,7 +607,11 @@ void Set_Time(void)
  */
 uint8_t Check_ValidData(char *rx_string)
 {
-  for (uint8_t i = 0; i < 10; i++)
+  if (data_request == 1)
+  {
+    return 0;
+  }
+  for (uint8_t i = 0; i < (data_request - 1); i++)
   {
     if (i == 2)
     {
@@ -628,7 +625,7 @@ uint8_t Check_ValidData(char *rx_string)
       if (rx_string[i] == '.' || rx_string[i] == '-' || rx_string[i] == 'A' || rx_string[i] == 'a')
         continue;
     }
-    else if (rx_string[i] > 57 || rx_string[i] < 48)
+    else if (rx_string[i] > 57 || rx_string[i] < 48 || data_request < 5)
     {
       // Check if character is not a digit (ASCII values 48-57)
       // If any character at other positions is not a digit, return 0 (invalid)
@@ -656,61 +653,76 @@ uint8_t Check_ValidData(char *rx_string)
  */
 void Check_ReceiveData(void)
 {
+
   // Validate the received data format
   if (Check_ValidData(rx_buf))
   {
     // Check for time input (format: HH-MM-SS)
     if (rx_buf[2] == '-' && rx_buf[5] == '-')
     {
-      String_To_Time(rx_buf, ENABLE);
-      // Validate hour, minute, and second values
-      if (check_time.hours > 23)
-      {
-        Display_Error(SPI1, ERROR_TIME_HOURS);
-      }
-      else if (check_time.minutes > 59)
-      {
-        Display_Error(SPI1, ERROR_TIME_MINUTES);
-      }
-      else if (check_time.seconds > 59)
-      {
-        Display_Error(SPI1, ERROR_TIME_SECONDS);
-      }
-      else if (data_request > 8) // Check if data request is within valid range
+      if (data_request < 8)
       {
         Display_Error(SPI1, ERROR_FORMAT);
       }
       else
       {
-        // Update current time if all checks pass
-        cur_time.hours = check_time.hours;
-        cur_time.minutes = check_time.minutes;
-        cur_time.seconds = check_time.seconds;
+        String_To_Time(rx_buf, ENABLE);
+        // Validate hour, minute, and second values
+        if (check_time.hours > 23)
+        {
+          Display_Error(SPI1, ERROR_TIME_HOURS);
+        }
+        else if (check_time.minutes > 59)
+        {
+          Display_Error(SPI1, ERROR_TIME_MINUTES);
+        }
+        else if (check_time.seconds > 59)
+        {
+          Display_Error(SPI1, ERROR_TIME_SECONDS);
+        }
+        else if (data_request > 8) // Check if data request is within valid range
+        {
+          Display_Error(SPI1, ERROR_FORMAT);
+        }
+        else
+        {
+          // Update current time if all checks pass
+          cur_time.hours = check_time.hours;
+          cur_time.minutes = check_time.minutes;
+          cur_time.seconds = check_time.seconds;
+        }
       }
     }
     // Check for date input (format: DD.MM.YYYY)
     else if (rx_buf[2] == '.' && rx_buf[5] == '.')
     {
-      String_To_Date(rx_buf, ENABLE);
-      // Validate day, month values
-      if (check_date.day > DayInMonth[cur_date.month - 1])
-      {
-        Display_Error(SPI1, ERROR_DATE_DAY);
-      }
-      else if (check_date.month > 12)
-      {
-        Display_Error(SPI1, ERROR_DATE_MONTH);
-      }
-      else if (data_request > 10) // Check if data request is within valid range
+      if (data_request < 10)
       {
         Display_Error(SPI1, ERROR_FORMAT);
       }
       else
       {
-        // Update current date if all checks pass
-        cur_date.day = check_date.day;
-        cur_date.month = check_date.month;
-        cur_date.year = check_date.year;
+        String_To_Date(rx_buf, ENABLE);
+        // Validate day, month values
+        if (check_date.day > DayInMonth[cur_date.month - 1])
+        {
+          Display_Error(SPI1, ERROR_DATE_DAY);
+        }
+        else if (check_date.month > 12)
+        {
+          Display_Error(SPI1, ERROR_DATE_MONTH);
+        }
+        else if (data_request > 10) // Check if data request is within valid range
+        {
+          Display_Error(SPI1, ERROR_FORMAT);
+        }
+        else
+        {
+          // Update current date if all checks pass
+          cur_date.day = check_date.day;
+          cur_date.month = check_date.month;
+          cur_date.year = check_date.year;
+        }
       }
     }
     // Check for alarm time input (format: HH-MMA or HH-MMa)
@@ -740,43 +752,6 @@ void Potentiometer(void)
   while (!ADC_conversion_complete())
     ;
   ADC_Pe = ADC_Channel_Read();
-}
-
-uint8_t TouchSense1(void)
-{
-  uint8_t touch = 0;
-  uint32_t chargeDistributionPeriodTmp = ELEC1_DIST_CHARGE_DELAY;
-
-  // Configure touch button (and EGS) electrodes floating
-  ElectrodeFloat1();
-
-  // Distribute Electrode and Cext charge
-  ChargeDistribution1();
-
-  // Delay to distribute charge
-  while (chargeDistributionPeriodTmp)
-  {
-    chargeDistributionPeriodTmp--;
-  }
-
-  // Start Cext voltage ADC conversion
-  ADC_channel_convert(ELEC1_ADC_CHANNEL);
-
-  // Redistribute Electrode and Cext charge
-  ChargeRedistribution1();
-
-  // Equivalent voltage digitalization
-  // Wait for conversion complete flag
-  while (ADC_conversion_complete() == 0)
-  {
-  }
-
-  // Compare with the Touched reference.
-  if (ADC_Channel_Read() < ELEC1_TOUCHED_LIMIT_VALUE)
-  {
-    touch = 1;
-  }
-  return touch;
 }
 
 #endif /* MAIN_H_ */
