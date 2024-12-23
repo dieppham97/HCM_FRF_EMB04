@@ -245,9 +245,7 @@ ISR()
 	x delay
 	clear interrupt
 	vài dòng lệnh
-	bật cờ
-	
-	
+	bật cờ	
 
 }
 
@@ -307,3 +305,74 @@ bt5: Configure the clock with
 bt6: From the 80Mhz core_clk of the previous exercise, set up the systick timer for Interrups each 1ms.
 
 
+21/08/2024
+UART
+1: communication overview
+	- Có 2 dạng là
+		+ đồng bộ (Asynchronous):
+		+ không đồng bộ (Synchronous): 
+	- Không đồng bộ: không có tín hiệu xung clock
+	- 2 kiểu truyền:
+		+ Serial: truyền trên 1 dây từng bit
+		+ Parallel: truyền 1 lượt trên nhiều dây (trong SPI có chế độ này dual SPI)
+2: UART overview
+	- chuyển 2 data giữa 2 devices
+	- có thể dùng simplex, half-duplex và full-duplex
+	- lợi thế: khoảng cách sử dụng xa hơn, ít bị nhiễu hơn,
+	- nhược điểm: tốc độ thấp nhất.
+	cách check ngoài parity : checksum, CRC.
+3: Low power UART
+	các thanh ghi hay dùng BAUD, STAT, CTRL, DATA
+	
+	9600 : bit/s
+
+28/08
+SPI
+- giao tiếp khoảng cách ngắn
+- được phát minh Motorola
+- cùng 1 thời điểm chỉ giao tiếp 1 master 1 slave.
+- khi giao tiếp nhiều slave thì slave nào đc chọn chân chip select của slave đó sẽ đc kéo xuống 0. xử lý xong sẽ kéo lên 1
+- trong trường hợp 1 master nối 1 chip select nhiều slave thì sử dụng demux 
+
+lý do khi các sản phẩm ra thị trường không có debug?
+
+vector table là những vùng memory chứa địa chỉ của các ngắt
+
+trong reset handler
+	disable interrupt: mục đích để setting toàn bộ
+	giao tiếp bootloader = 2 cờ: valid app và request program
+	
+	
+lợi ích khi dùng lệnh command:
+	automation test nhanh hơn. bằng cách dùng lệnh chứ không phải add từng file trong keilC
+	cần kiểm soát size của struct vì nếu cast từ 1 chuỗi chỉ 8 byte mà struct 10 byte sẽ gây sai dữ liệu (vỡ data).
+	
+Quá trình biên dịch:
+	Trình biên dịch là gì
+		SW biên dịch ngôn ngữ cao -> thấp 010101 machine hiểu
+	tương thích MCU
+
+	Preprocessing: Xử lý các tiền chỉ thị directive processor
+		1. #
+			1. #if #else
+			2. #include "" :coppy toàn bộ nội dung .h vào .chỉ
+			3. Macro
+		2. Xóa comment
+		=> từ .c -> .i
+
+	-------------------
+	ARM compiler
+		Tool: 
+			armclang: trình assembler
+			armasm	: chỉ assembler
+			armlink
+			fromelf
+	GNU arm
+	GHS
+	RH+		
+		
+	thực hành:
+	armclang --target=arm-arm-none-eabi -mcpu=cortex-m4 -masm=auto -c main.s -o st.o
+	armlink --scatter=test.sct --cpu=cortex-m4 --map --list=test.map main.o st.o -o final.axf
+	
+	armlink --cpu=cortex-m4 --scatter=D:\hoc-tap\CNTT\HCM24_FRF_EMB_04\MCP\Linker\User_linker.sct --entry=main --verbose --map --info=sizes,unused,unusedsymbols --symbols --load_addr_map_info --list=D:\hoc-tap\CNTT\HCM24_FRF_EMB_04\MCP\Linker\Infor.map D:\hoc-tap\CNTT\HCM24_FRF_EMB_04\MCP\Linker\Objects\main.o D:\hoc-tap\CNTT\HCM24_FRF_EMB_04\MCP\Linker\Objects\lib.o -o D:\hoc-tap\CNTT\HCM24_FRF_EMB_04\MCP\Linker\product.axf

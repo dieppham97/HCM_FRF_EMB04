@@ -1,0 +1,5 @@
+../drivers/Src/max7219.c:10:6:Max7219_Init	24	static
+../drivers/Src/max7219.c:40:6:DIGITx_Init	24	static
+../drivers/Src/max7219.c:162:6:DISPLAY_Date	24	static
+../drivers/Src/max7219.c:207:6:DISPLAY_Time	24	static
+../drivers/Src/max7219.c:257:6:Display_Fault	24	static
